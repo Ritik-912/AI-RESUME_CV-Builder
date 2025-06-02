@@ -1,0 +1,50 @@
+@import './base.css';
+
+/* ========== PAGE-SPECIFIC ========== */
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-lg);
+  font-weight: normal;
+}
+
+.section-form {
+  max-width: 800px;
+  margin: var(--space-lg) auto;
+  padding: var(--space-lg);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-lg);
+}
+
+.section-title {
+  color: var(--color-text);
+  margin-bottom: var(--space-lg);
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .section-form {
+    padding: var(--space-md);
+    margin: var(--space-md);
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 var(--space-lg);
+  }
+}

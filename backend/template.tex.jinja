@@ -1,0 +1,182 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=0.75in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fontawesome}
+\usepackage{setspace}
+\usepackage{xcolor}
+
+\definecolor{headerblue}{HTML}{0A4F7A}
+\definecolor{graytext}{gray}{0.3}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=headerblue,
+    urlcolor=headerblue
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlist[itemize]{leftmargin=*, topsep=0pt, itemsep=1pt, parsep=0pt}
+
+\usepackage{titlesec}
+\titleformat{\section}{
+  \color{headerblue}\scshape\large
+}{}{0em}{}[\titlerule]
+
+\begin{document}
+\pagestyle{empty}
+
+%========================
+% HEADER
+%========================
+\begin{center}
+    {\LARGE \textbf{{ personalInfo.name }}}\\[4pt]
+    \small
+    \faEnvelope \hspace{1pt} \href{mailto:{{ personalInfo.email }}}{{ personalInfo.email }} \quad
+    \faMapMarker \hspace{1pt} {{ personalInfo.location }} \quad
+    {% for link in personalInfo.links if link %}
+        \href{ {{ link }} }{ {{ link | replace("https://", "") | replace("www.", "") }} } \quad
+    {% endfor %}
+\end{center}
+\vspace{-4pt}
+\hrule
+\vspace{6pt}
+
+%========================
+% SUMMARY
+%========================
+{% if personalInfo.summary %}
+\section*{Professional Summary}
+\small
+{{ personalInfo.summary }}
+\normalsize
+{% endif %}
+
+%========================
+% TECHNICAL SKILLS
+%========================
+{% if skills %}
+\section*{Skills}
+\begin{itemize}
+    {% for skill in skills %}
+    \item \textbf{{ skill.name }}: {{ skill.level }}
+    {% endfor %}
+\end{itemize}
+{% endif %}
+
+%========================
+% WORK EXPERIENCE
+%========================
+{% if workExperience %}
+\section*{Professional Experience}
+{% for job in workExperience %}
+\textbf{{ job.position }} \hfill \textit{{ job.startDate }} -- {{ job.endDate or 'Present' }}\\
+\textit{{ job.company }}
+{% if job.description %}
+\begin{itemize}
+    \item {{ job.description }}
+\end{itemize}
+{% endif %}
+\vspace{4pt}
+{% endfor %}
+{% endif %}
+
+%========================
+% EDUCATION
+%========================
+{% if education %}
+\section*{Education}
+{% for edu in education %}
+\textbf{{ edu.courseName }} \hfill \textit{{ edu.startDate }} -- {{ edu.endDate or 'Present' }}\\
+{{ edu.instituteName }} \hfill {{ edu.grade }}\\
+{% if edu.description %}\small {{ edu.description }} \normalsize{% endif %}
+\vspace{4pt}
+{% endfor %}
+{% endif %}
+
+%========================
+% PROJECTS
+%========================
+{% if projects %}
+\section*{Projects}
+\begin{itemize}
+    {% for project in projects %}
+    \item \textbf{{ project.title }} {% if project.organisation %}({{ project.organisation }}){% endif %} \hfill \textit{{ project.startDate or '' }} -- {{ project.endDate or 'Present' }}
+    {% if project.link %}\\\href{ {{ project.link }} }{ {{ project.link }} }{% endif %}
+    {% if project.description %}\\{{ project.description }}{% endif %}
+    {% endfor %}
+\end{itemize}
+{% endif %}
+
+%========================
+% CERTIFICATIONS
+%========================
+{% if certifications %}
+\section*{Certifications}
+\begin{itemize}
+    {% for cert in certifications %}
+    \item \textbf{{ cert.title }} \hfill {{ cert.issuingAuthority }}, {{ cert.issueDate }}
+    {% endfor %}
+\end{itemize}
+{% endif %}
+
+%========================
+% AWARDS
+%========================
+{% if awards %}
+\section*{Awards}
+\begin{itemize}
+    {% for award in awards %}
+    \item \textbf{{ award.title }} \hfill {{ award.organization }}, {{ award.dateEarned }}
+    {% endfor %}
+\end{itemize}
+{% endif %}
+
+%========================
+% LANGUAGES
+%========================
+{% if languages %}
+\section*{Languages}
+\begin{itemize}
+    {% for lang in languages %}
+    \item {{ lang.name }} --- {{ lang.level }}
+    {% endfor %}
+\end{itemize}
+{% endif %}
+
+%========================
+% VOLUNTEERING
+%========================
+{% if volunteering %}
+\section*{Volunteering}
+{% for vol in volunteering %}
+\textbf{{ vol.role }} \hfill \textit{{ vol.startDate }} -- {{ vol.endDate or 'Present' }}\\
+{{ vol.organization }}, {{ vol.location }}\\
+{% if vol.description %}\small {{ vol.description }} \normalsize{% endif %}
+\vspace{4pt}
+{% endfor %}
+{% endif %}
+
+%========================
+% PUBLICATIONS
+%========================
+{% if publications %}
+\section*{Publications}
+\begin{itemize}
+    {% for pub in publications %}
+    \item \textbf{{ pub.title }}, {{ pub.publisher }} ({{ pub.publishedDate }})
+    {% if pub.abstract %}\\{{ pub.abstract }}{% endif %}
+    {% if pub.link %}\\\href{ {{ pub.link }} }{ {{ pub.link }} }{% endif %}
+    {% endfor %}
+\end{itemize}
+{% endif %}
+
+\vfill
+{\footnotesize \textcolor{graytext}{Last updated: \today}}
+
+\end{document}

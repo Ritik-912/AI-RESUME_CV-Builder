@@ -1,0 +1,239 @@
+/* ========== DESIGN TOKENS ========== */
+:root {
+  --font-sans: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  --color-primary: #3b82f6;         /* blue-500 */
+  --color-primary-hover: #2563eb;   /* blue-600 */
+  --color-secondary: #64748b;       /* slate-500 */
+  --color-bg: #f9fafb;
+  --color-text: #1f2937;            /* gray-800 */
+  --color-muted: #6b7280;           /* gray-500 */
+
+  --color-border: #e5e7eb;
+  --color-white: #ffffff;
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-success: #10b981;
+  --color-success-hover: #059669;
+
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 2px 12px rgba(0, 0, 0, 0.1);
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+}
+
+/* ========== RESET & BASE ========== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 2048px;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text);
+  margin-bottom: var(--space-sm);
+  font-weight: 600;
+}
+
+p {
+  margin: 0 0 var(--space-md);
+  color: var(--color-muted);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ========== FORM ELEMENTS ========== */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--color-text);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+textarea {
+  resize: vertical;
+}
+
+.form-group {
+  margin-bottom: var(--space-md);
+}
+
+.form-group-inline {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.mt-4 {
+  margin-top: var(--space-md);
+}
+
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.form-control {
+  width: 100%;
+  padding: var(--space-sm);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* ========== BUTTONS ========== */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border: none;
+  box-shadow: var(--shadow-sm);
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: var(--color-danger-hover);
+  transform: translateY(-1px);
+}
+
+.btn-success {
+  background-color: var(--color-success);
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: var(--color-success-hover);
+  transform: translateY(-1px);
+}
+
+/* ========== UTILITIES ========== */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-md);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
+
+.mb-4 {
+  margin-bottom: var(--space-lg);
+}
+
+/* ========== DARK MODE EXTENSION ========== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1e293b;
+    --color-text: #f1f5f9;
+    --color-border: #334155;
+    --color-white: #0f172a;
+  }
+}
