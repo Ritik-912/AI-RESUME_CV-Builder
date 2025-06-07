@@ -32,7 +32,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`project-start-${index}`">Start Date</label>
+            <label :for="`project-start-${index}`">Start Date<span class="required-asterisk">*</span></label>
             <input
               :id="`project-start-${index}`"
               type="month"
@@ -43,7 +43,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`project-end-${index}`">End Date</label>
+            <label :for="`project-end-${index}`">End Date<span class="required-asterisk">*</span></label>
             <input
               :id="`project-end-${index}`"
               type="month"
