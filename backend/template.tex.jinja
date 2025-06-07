@@ -35,13 +35,13 @@
 % HEADER
 %========================
 \begin{center}
-    {\LARGE \textbf{ {{ personalInfo.name }} }} \\[4pt]
+    {\LARGE \textbf{ {{ personalInfo.name | latex_escape }} }} \\[4pt]
     \small
-    \faEnvelope \hspace{1pt} \href{mailto:{{ personalInfo.email }} } {{ personalInfo.email }} \quad
-    \faMapMarker \hspace{1pt} {{ personalInfo.location }} \quad
+    \faEnvelope \hspace{1pt} \href{mailto:{{ personalInfo.email | latex_escape }} } {{ personalInfo.email | latex_escape }} \quad
+    \faMapMarker \hspace{1pt} {{ personalInfo.location | latex_escape }} \quad
     {% if personalInfo.links %}
     {% for link in personalInfo.links if link %}
-        \href{ {{ link.url }} }{ {{ link.text }} } \quad
+        \href{ {{ link.url | latex_escape }} }{ {{ link.text | latex_escape }} } \quad
     {% endfor %}
     {% endif %}
 \end{center}
@@ -55,10 +55,10 @@
 \vspace{6pt}
 \section*{Professional Summary}
 {% if personalInfo.targetTitle %}
-\textbf{ {{ personalInfo.targetTitle }} }\hspace{6pt}
+\textbf{ {{ personalInfo.targetTitle | latex_escape }} }\hspace{6pt}
 {% endif %}
 \small
-{{ personalInfo.summary }}
+{{ personalInfo.summary | latex_escape }}
 \normalsize
 {% endif %}
 
@@ -69,7 +69,7 @@
 \section*{Skills}
 \begin{itemize}
     {% for skill in skills %}
-    \item \textbf{ {{ skill.name }} }: {{ skill.level }}
+    \item \textbf{ {{ skill.name | latex_escape }} }: {{ skill.level | latex_escape }}
     {% endfor %}
 \end{itemize}
 {% endif %}
@@ -80,11 +80,11 @@
 {% if workExperiences %}
 \section*{Professional Experience}
 {% for job in workExperiences %}
-\textbf{ {{ job.position }} } \hfill \textit{ {{ job.startDate }} -- {{ job.endDate or 'Present' }} }\\
-\textit{ {{ job.organization }} }
+\textbf{ {{ job.position | latex_escape }} } \hfill \textit{ {{ job.startDate }} -- {{ job.endDate or 'Present' }} }\\
+\textit{ {{ job.organization | latex_escape }} }
 {% if job.description %}
 \begin{itemize}
-    \item {{ job.description }}
+    \item {{ job.description | latex_escape }}
 \end{itemize}
 {% endif %}
 \vspace{2pt}
@@ -97,9 +97,9 @@
 {% if educations %}
 \section*{Education}
 {% for edu in educations %}
-\textbf{ {{ edu.courseName }} } \hfill \textit{ {{ edu.startDate }} -- {{ edu.endDate or 'Present' }} }\\
-{{ edu.instituteName }} \hfill {{ edu.grade }}\\
-{% if edu.description %}\small {{ edu.description }} \normalsize{% endif %}
+\textbf{ {{ edu.courseName | latex_escape }} } \hfill \textit{ {{ edu.startDate }} -- {{ edu.endDate or 'Present' }} }\\
+{{ edu.instituteName | latex_escape }} \hfill {{ edu.grade | latex_escape }}\\
+{% if edu.description %}\small {{ edu.description | latex_escape }} \normalsize{% endif %}
 \vspace{2pt}
 {% endfor %}
 {% endif %}
@@ -111,9 +111,9 @@
 \section*{Projects}
 \begin{itemize}
     {% for project in projects %}
-    \item \textbf{ {{ project.title }} } {% if project.organisation %}({{ project.organisation }}){% endif %} \hfill \textit{ {{ project.startDate or '' }} -- {{ project.endDate or 'Present' }} }
-    {% if project.link %}\\ \href{ {{ project.link }} }{link}{% endif %}
-    {% if project.description %}\\{{ project.description }}{% endif %}
+    \item \textbf{ {{ project.title | latex_escape }} } {% if project.organisation %}({{ project.organisation | latex_escape }}){% endif %} \hfill \textit{ {{ project.startDate or '' }} -- {{ project.endDate or 'Present' }} }
+    {% if project.link %}\\ \href{ {{ project.link | latex_escape }} }{link}{% endif %}
+    {% if project.description %}\\ {{ project.description | latex_escape }}{% endif %}
     {% endfor %}
 \end{itemize}
 {% endif %}
@@ -125,7 +125,7 @@
 \section*{Certifications}
 \begin{itemize}
     {% for cert in certifications %}
-    \item \textbf{ {{ cert.title }} } \hfill {{ cert.issuingAuthority }}, {{ cert.issueDate }}
+    \item \textbf{ {{ cert.title | latex_escape }} } \hfill {{ cert.issuingAuthority | latex_escape }}, {{ cert.issueDate }}
     {% endfor %}
 \end{itemize}
 {% endif %}
@@ -137,7 +137,7 @@
 \section*{Awards}
 \begin{itemize}
     {% for award in awards %}
-    \item \textbf{ {{ award.title }} } \hfill {{ award.organization }}, {{ award.dateEarned }}
+    \item \textbf{ {{ award.title | latex_escape }} } \hfill {{ award.organization | latex_escape }}, {{ award.dateEarned }}
     {% endfor %}
 \end{itemize}
 {% endif %}
@@ -149,7 +149,7 @@
 \section*{Languages}
 \begin{itemize}
     {% for lang in languages %}
-    \item {{ lang.name }} --- {{ lang.level }}
+    \item {{ lang.name | latex_escape }} --- {{ lang.level }}
     {% endfor %}
 \end{itemize}
 {% endif %}
@@ -160,9 +160,9 @@
 {% if volunteering %}
 \section*{Volunteering}
 {% for vol in volunteering %}
-\textbf{ {{ vol.role }} } \hfill \textit{ {{ vol.startDate }} -- {{ vol.endDate or 'Present' }} }\\
-{{ vol.organization }}, {{ vol.location }}\\
-{% if vol.description %}\small {{ vol.description }} \normalsize{% endif %}
+\textbf{ {{ vol.role | latex_escape }} } \hfill \textit{ {{ vol.startDate }} -- {{ vol.endDate or 'Present' }} }\\
+{{ vol.organization | latex_escape }}, {{ vol.location | latex_escape }}\\
+{% if vol.description %}\small {{ vol.description | latex_escape }} \normalsize{% endif %}
 \vspace{2pt}
 {% endfor %}
 {% endif %}
@@ -174,9 +174,9 @@
 \section*{Publications}
 \begin{itemize}
     {% for pub in publications %}
-    \item \textbf{ {{ pub.title }} }, {{ pub.publisher }} ({{ pub.publishedDate }})
-    {% if pub.abstract %}\\{{ pub.abstract }}{% endif %}
-    {% if pub.link %}\\\href{ {{ pub.link }} }{link}{% endif %}
+    \item \textbf{ {{ pub.title | latex_escape }} }, {{ pub.publisher | latex_escape }} ({{ pub.publishedDate }})
+    {% if pub.abstract %}\\ {{ pub.abstract | latex_escape }}{% endif %}
+    {% if pub.link %}\\ \href{ {{ pub.link | latex_escape }} }{link}{% endif %}
     {% endfor %}
 \end{itemize}
 {% endif %}

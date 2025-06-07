@@ -5,6 +5,21 @@ import tempfile
 import subprocess
 from jinja2 import Environment, FileSystemLoader
 from openai import OpenAI
+import re
+
+def escape_latex(text):
+    if not isinstance(text, str):
+        return text
+    return (text.replace('\\', r'\textbackslash{}')
+                .replace('&', r'\&')
+                .replace('%', r'\%')
+                .replace('$', r'\$')
+                .replace('#', r'\#')
+                .replace('_', r'\_')
+                .replace('{', r'\{')
+                .replace('}', r'\}')
+                .replace('~', r'\textasciitilde{}')
+                .replace('^', r'\textasciicircum{}'))
 
 client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=os.environ.get("OPENROUTER_API_KEY"))
 
@@ -154,6 +169,7 @@ def generate_pdf_from_tex(resume_data: dict, template_path: str = "template.tex.
     env = Environment(loader=FileSystemLoader(os.path.dirname(template_path)))
     template = env.get_template(os.path.basename(template_path))
     tex_code = template.render(**resume_data)
+    env.filters['latex_escape'] = escape_latex
 
     with tempfile.TemporaryDirectory() as tmpdir:
         tex_file = os.path.join(tmpdir, "resume.tex")
