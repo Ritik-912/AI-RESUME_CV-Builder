@@ -167,9 +167,9 @@ def optimize_resume(resume: dict):
 
 def generate_pdf_from_tex(resume_data: dict, template_path: str = "template.tex.jinja") -> bytes:
     env = Environment(loader=FileSystemLoader(os.path.dirname(template_path)))
+    env.filters['latex_escape'] = escape_latex
     template = env.get_template(os.path.basename(template_path))
     tex_code = template.render(**resume_data)
-    env.filters['latex_escape'] = escape_latex
 
     with tempfile.TemporaryDirectory() as tmpdir:
         tex_file = os.path.join(tmpdir, "resume.tex")
