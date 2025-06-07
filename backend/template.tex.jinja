@@ -39,9 +39,11 @@
     \small
     \faEnvelope \hspace{1pt} \href{mailto:{{ personalInfo.email }} } {{ personalInfo.email }} \quad
     \faMapMarker \hspace{1pt} {{ personalInfo.location }} \quad
+    {% if personalInfo.links %}
     {% for link in personalInfo.links if link %}
         \href{ {{ link.url }} }{ {{ link.text }} } \quad
     {% endfor %}
+    {% endif %}
 \end{center}
 
 %========================
