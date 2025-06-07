@@ -70,7 +70,7 @@ const checkAllSections = (validationMsg) => {
   // Validate Links
   if (store.$state.personalInfo.links && store.$state.personalInfo.links.length > 0) {
     store.$state.personalInfo.links.forEach((item, index) => {
-      const errs = validateSection(item, ['url', 'name'])
+      const errs = validateSection(item, ['url', 'text'])
       if (errs.length > 0) {
         errors.push(`Social Media Links #${index + 1}: ${errs.join(', ')}`);
       }
