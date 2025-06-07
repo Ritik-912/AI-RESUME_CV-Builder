@@ -113,7 +113,9 @@
     {% for project in projects %}
     \item \textbf{ {{ project.title | latex_escape }} } {% if project.organisation %}({{ project.organisation | latex_escape }}){% endif %} \hfill \textit{ {{ project.startDate or '' }} -- {{ project.endDate or 'Present' }} }
     {% if project.link %}\\ \href{ {{ project.link | latex_escape }} }{link}{% endif %}
-    {% if project.description %}\\ {{ project.description | latex_escape }}{% endif %}
+    {% if project.description %}\newline
+    {{ project.description | latex_escape }}
+    {% endif %}
     {% endfor %}
 \end{itemize}
 {% endif %}
