@@ -10,7 +10,7 @@
       >
         <form @submit.prevent>
           <div class="form-group">
-            <label :for="`title-${index}`">Title</label>
+            <label :for="`title-${index}`">Title<span class="required-asterisk">*</span></label>
             <input
               :id="`title-${index}`"
               type="text"
@@ -22,7 +22,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`publisher-${index}`">Publisher</label>
+            <label :for="`publisher-${index}`">Publisher<span class="required-asterisk">*</span></label>
             <input
               :id="`publisher-${index}`"
               type="text"
@@ -34,7 +34,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`publishedDate-${index}`">Published Date</label>
+            <label :for="`publishedDate-${index}`">Published Date<span class="required-asterisk">*</span></label>
             <input
               :id="`publishedDate-${index}`"
               type="month"
@@ -69,7 +69,7 @@
             <button
               type="button"
               class="btn btn-danger"
-              v-if="store.publications.length > 1"
+              v-if="store.publications.length > 0"
               @click="removePublication(index)"
             >
               Remove Publication
@@ -89,7 +89,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
 import { useResume } from '../index.js'
 
 const store = useResume()
@@ -105,24 +104,10 @@ function addPublication() {
 }
 
 function removePublication(index) {
-  if (store.publications.length > 1) {
+  if (store.publications.length > 0) {
     store.publications.splice(index, 1)
   }
 }
-
-onMounted(() => {
-  if (!store.publications || store.publications.length === 0) {
-    store.publications = [
-      {
-        title: '',
-        publisher: '',
-        publishedDate: '',
-        link: '',
-        abstract: ''
-      }
-    ]
-  }
-});
 </script>
 
 <style scoped>

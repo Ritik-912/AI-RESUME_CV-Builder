@@ -10,7 +10,7 @@
       >
         <form @submit.prevent>
           <div class="form-group">
-            <label :for="`skill-name-${index}`">Skill</label>
+            <label :for="`skill-name-${index}`">Skill<span class="required-asterisk">*</span></label>
             <input
               :id="`skill-name-${index}`"
               type="text"
@@ -22,7 +22,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`skill-level-${index}`">Proficiency Level</label>
+            <label :for="`skill-level-${index}`">Proficiency Level<span class="required-asterisk">*</span></label>
             <select
               :id="`skill-level-${index}`"
               v-model="skill.level"
@@ -40,7 +40,7 @@
           <button
             type="button"
             class="btn btn-danger"
-            v-if="store.skills.length > 1"
+            v-if="store.skills.length > 0"
             @click="removeSkill(index)"
           >
             Remove Skill
@@ -63,7 +63,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
 import { useResume } from '../index.js'
 const store = useResume()
 
@@ -72,16 +71,10 @@ function addSkill() {
 }
 
 function removeSkill(index) {
-  if (store.skills.length > 1) {
+  if (store.skills.length > 0) {
     store.skills.splice(index, 1)
   }
 }
-
-onMounted(() => {
-  if (!store.skills || store.skills.length === 0) {
-    store.skills = [{ name: '', level: '' }]
-  }
-})
 </script>
 
 <style scoped>

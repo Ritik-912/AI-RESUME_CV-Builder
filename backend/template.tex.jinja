@@ -1,5 +1,5 @@
 \documentclass[11pt]{article}
-\usepackage[a4paper,margin=0.75in]{geometry}
+\usepackage[a4paper,margin=0.45in]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
@@ -20,7 +20,7 @@
 }
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{2pt}
+\setlength{\parskip}{1pt}
 \setlist[itemize]{leftmargin=*, topsep=0pt, itemsep=1pt, parsep=0pt}
 
 \usepackage{titlesec}
@@ -35,23 +35,26 @@
 % HEADER
 %========================
 \begin{center}
-    {\LARGE \textbf{{ personalInfo.name }}}\\[4pt]
+    {\LARGE \textbf{ {{ personalInfo.name }} }} \\[4pt]
     \small
-    \faEnvelope \hspace{1pt} \href{mailto:{{ personalInfo.email }}}{{ personalInfo.email }} \quad
+    \faEnvelope \hspace{1pt} \href{mailto:{{ personalInfo.email }} } {{ personalInfo.email }} \quad
     \faMapMarker \hspace{1pt} {{ personalInfo.location }} \quad
     {% for link in personalInfo.links if link %}
-        \href{ {{ link }} }{ {{ link | replace("https://", "") | replace("www.", "") }} } \quad
+        \href{ {{ link.url }} }{ {{ link.text }} } \quad
     {% endfor %}
 \end{center}
-\vspace{-4pt}
-\hrule
-\vspace{6pt}
 
 %========================
 % SUMMARY
 %========================
 {% if personalInfo.summary %}
+\vspace{-4pt}
+\hrule
+\vspace{6pt}
 \section*{Professional Summary}
+{% if personalInfo.targetTitle %}
+\textbf{ {{ personalInfo.targetTitle }} }\hspace{6pt}
+{% endif %}
 \small
 {{ personalInfo.summary }}
 \normalsize
@@ -64,7 +67,7 @@
 \section*{Skills}
 \begin{itemize}
     {% for skill in skills %}
-    \item \textbf{{ skill.name }}: {{ skill.level }}
+    \item \textbf{ {{ skill.name }} }: {{ skill.level }}
     {% endfor %}
 \end{itemize}
 {% endif %}
@@ -72,30 +75,30 @@
 %========================
 % WORK EXPERIENCE
 %========================
-{% if workExperience %}
+{% if workExperiences %}
 \section*{Professional Experience}
-{% for job in workExperience %}
-\textbf{{ job.position }} \hfill \textit{{ job.startDate }} -- {{ job.endDate or 'Present' }}\\
-\textit{{ job.company }}
+{% for job in workExperiences %}
+\textbf{ {{ job.position }} } \hfill \textit{ {{ job.startDate }} -- {{ job.endDate or 'Present' }} }\\
+\textit{ {{ job.organization }} }
 {% if job.description %}
 \begin{itemize}
     \item {{ job.description }}
 \end{itemize}
 {% endif %}
-\vspace{4pt}
+\vspace{2pt}
 {% endfor %}
 {% endif %}
 
 %========================
 % EDUCATION
 %========================
-{% if education %}
+{% if educations %}
 \section*{Education}
-{% for edu in education %}
-\textbf{{ edu.courseName }} \hfill \textit{{ edu.startDate }} -- {{ edu.endDate or 'Present' }}\\
+{% for edu in educations %}
+\textbf{ {{ edu.courseName }} } \hfill \textit{ {{ edu.startDate }} -- {{ edu.endDate or 'Present' }} }\\
 {{ edu.instituteName }} \hfill {{ edu.grade }}\\
 {% if edu.description %}\small {{ edu.description }} \normalsize{% endif %}
-\vspace{4pt}
+\vspace{2pt}
 {% endfor %}
 {% endif %}
 
@@ -106,8 +109,8 @@
 \section*{Projects}
 \begin{itemize}
     {% for project in projects %}
-    \item \textbf{{ project.title }} {% if project.organisation %}({{ project.organisation }}){% endif %} \hfill \textit{{ project.startDate or '' }} -- {{ project.endDate or 'Present' }}
-    {% if project.link %}\\\href{ {{ project.link }} }{ {{ project.link }} }{% endif %}
+    \item \textbf{ {{ project.title }} } {% if project.organisation %}({{ project.organisation }}){% endif %} \hfill \textit{ {{ project.startDate or '' }} -- {{ project.endDate or 'Present' }} }
+    {% if project.link %}\\ \href{ {{ project.link }} }{link}{% endif %}
     {% if project.description %}\\{{ project.description }}{% endif %}
     {% endfor %}
 \end{itemize}
@@ -120,7 +123,7 @@
 \section*{Certifications}
 \begin{itemize}
     {% for cert in certifications %}
-    \item \textbf{{ cert.title }} \hfill {{ cert.issuingAuthority }}, {{ cert.issueDate }}
+    \item \textbf{ {{ cert.title }} } \hfill {{ cert.issuingAuthority }}, {{ cert.issueDate }}
     {% endfor %}
 \end{itemize}
 {% endif %}
@@ -132,7 +135,7 @@
 \section*{Awards}
 \begin{itemize}
     {% for award in awards %}
-    \item \textbf{{ award.title }} \hfill {{ award.organization }}, {{ award.dateEarned }}
+    \item \textbf{ {{ award.title }} } \hfill {{ award.organization }}, {{ award.dateEarned }}
     {% endfor %}
 \end{itemize}
 {% endif %}
@@ -155,10 +158,10 @@
 {% if volunteering %}
 \section*{Volunteering}
 {% for vol in volunteering %}
-\textbf{{ vol.role }} \hfill \textit{{ vol.startDate }} -- {{ vol.endDate or 'Present' }}\\
+\textbf{ {{ vol.role }} } \hfill \textit{ {{ vol.startDate }} -- {{ vol.endDate or 'Present' }} }\\
 {{ vol.organization }}, {{ vol.location }}\\
 {% if vol.description %}\small {{ vol.description }} \normalsize{% endif %}
-\vspace{4pt}
+\vspace{2pt}
 {% endfor %}
 {% endif %}
 
@@ -169,9 +172,9 @@
 \section*{Publications}
 \begin{itemize}
     {% for pub in publications %}
-    \item \textbf{{ pub.title }}, {{ pub.publisher }} ({{ pub.publishedDate }})
+    \item \textbf{ {{ pub.title }} }, {{ pub.publisher }} ({{ pub.publishedDate }})
     {% if pub.abstract %}\\{{ pub.abstract }}{% endif %}
-    {% if pub.link %}\\\href{ {{ pub.link }} }{ {{ pub.link }} }{% endif %}
+    {% if pub.link %}\\\href{ {{ pub.link }} }{link}{% endif %}
     {% endfor %}
 \end{itemize}
 {% endif %}

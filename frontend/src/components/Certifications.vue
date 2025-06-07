@@ -10,7 +10,7 @@
       >
         <form @submit.prevent>
           <div class="form-group">
-            <label :for="`cert-title-${index}`">Certification Title</label>
+            <label :for="`cert-title-${index}`">Certification Title<span class="required-asterisk">*</span></label>
             <input
               :id="`cert-title-${index}`"
               v-model="cert.title"
@@ -22,7 +22,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`cert-issuer-${index}`">Issuing Authority</label>
+            <label :for="`cert-issuer-${index}`">Issuing Authority<span class="required-asterisk">*</span></label>
             <input
               :id="`cert-issuer-${index}`"
               v-model="cert.issuingAuthority"
@@ -34,7 +34,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`cert-date-${index}`">Issue Date</label>
+            <label :for="`cert-date-${index}`">Issue Date<span class="required-asterisk">*</span></label>
             <input
               :id="`cert-date-${index}`"
               v-model="cert.issueDate"
@@ -50,7 +50,7 @@
             type="button"
             class="btn btn-danger"
             @click="removeCertification(index)"
-            v-if="store.certifications.length > 1"
+            v-if="store.certifications.length > 0"
           >
             Remove
           </button>
@@ -70,7 +70,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import { useResume } from '../index.js';
 const store = useResume();
 
@@ -85,16 +84,6 @@ function addCertification() {
 function removeCertification(index) {
   store.certifications.splice(index, 1);
 }
-
-onMounted(() => {
-  if (!store.certifications || store.certifications.length === 0) {
-    store.certifications = [{
-      title: '',
-      issuingAuthority: '',
-      issueDate: ''
-    }];
-  }
-});
 </script>
 
 <style scoped>

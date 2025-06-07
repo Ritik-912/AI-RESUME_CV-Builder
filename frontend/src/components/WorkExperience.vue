@@ -10,7 +10,7 @@
       >
         <form @submit.prevent>
           <div class="form-group">
-            <label :for="`organization-${index}`">Organization</label>
+            <label :for="`organization-${index}`">Organization<span class="required-asterisk">*</span></label>
             <input
               :id="`organization-${index}`"
               v-model.trim="experience.organization"
@@ -22,7 +22,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`position-${index}`">Position</label>
+            <label :for="`position-${index}`">Position<span class="required-asterisk">*</span></label>
             <input
               :id="`position-${index}`"
               v-model.trim="experience.position"
@@ -34,7 +34,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`startDate-${index}`">Start Date</label>
+            <label :for="`startDate-${index}`">Start Date<span class="required-asterisk">*</span></label>
             <input
               :id="`startDate-${index}`"
               v-model="experience.startDate"
@@ -71,7 +71,7 @@
             type="button"
             class="btn btn-danger"
             @click="removeExperience(index)"
-            v-if="store.workExperiences.length > 1"
+            v-if="store.workExperiences.length > 0"
           >
             Remove Experience
           </button>
@@ -89,7 +89,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
 import { useResume } from '../index.js'
 const store = useResume()
 
@@ -104,24 +103,10 @@ const addExperience = () => {
 }
 
 const removeExperience = (index) => {
-  if (store.workExperiences.length > 1) {
+  if (store.workExperiences.length > 0) {
     store.workExperiences.splice(index, 1)
   }
 }
-
-onMounted(() => {
-  if (!store.workExperiences || store.workExperiences.length === 0) {
-    store.workExperiences = [
-      {
-        organization: '',
-        position: '',
-        startDate: '',
-        endDate: '',
-        description: ''
-      }
-    ]
-  }
-})
 </script>
 
 <style scoped>

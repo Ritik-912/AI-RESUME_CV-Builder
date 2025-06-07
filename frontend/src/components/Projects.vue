@@ -10,7 +10,7 @@
       >
         <form @submit.prevent>
           <div class="form-group">
-            <label :for="`project-title-${index}`">Project Title</label>
+            <label :for="`project-title-${index}`">Project Title<span class="required-asterisk">*</span></label>
             <input
               :id="`project-title-${index}`"
               type="text"
@@ -73,7 +73,7 @@
           </div>
 
           <button
-            v-if="store.projects.length > 1"
+            v-if="store.projects.length > 0"
             @click="removeProject(index)"
             type="button"
             class="btn btn-danger"
@@ -94,7 +94,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
 import { useResume } from '../index.js'
 
 const store = useResume()
@@ -111,25 +110,10 @@ function addProject() {
 }
 
 function removeProject(index) {
-  if (store.projects.length > 1) {
+  if (store.projects.length > 0) {
     store.projects.splice(index, 1)
   }
 }
-
-onMounted(() => {
-  if (!store.projects || store.projects.length === 0) {
-    store.projects = [
-      {
-        title: '',
-        organisation: '',
-        startDate: '',
-        endDate: '',
-        link: '',
-        description: ''
-      }
-    ]
-  }
-})
 </script>
 
 <style scoped>

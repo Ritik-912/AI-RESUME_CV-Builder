@@ -9,7 +9,7 @@
         class="language-entry"
       >
         <div class="form-group">
-          <label :for="'language-name-' + index">Language</label>
+          <label :for="'language-name-' + index">Language<span class="required-asterisk">*</span></label>
           <input
             :id="'language-name-' + index"
             type="text"
@@ -20,7 +20,7 @@
         </div>
 
         <div class="form-group">
-          <label :for="'language-level-' + index">Proficiency Level</label>
+          <label :for="'language-level-' + index">Proficiency Level<span class="required-asterisk">*</span></label>
           <select
             :id="'language-level-' + index"
             v-model="language.level"
@@ -36,7 +36,7 @@
         </div>
 
         <button
-          v-if="store.languages.length > 1"
+          v-if="store.languages.length > 0"
           @click="removeLanguage(index)"
           class="btn btn-danger"
         >
@@ -55,7 +55,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import { useResume } from '../index.js';
 
 const store = useResume();
@@ -65,16 +64,10 @@ function addLanguage() {
 }
 
 function removeLanguage(index) {
-  if (store.languages.length > 1) {
+  if (store.languages.length > 0) {
     store.languages.splice(index, 1);
   }
 }
-
-onMounted(() => {
-  if (!store.languages || store.languages.length === 0) {
-    store.languages = [{ name: '', level: '' }];
-  }
-});
 </script>
 
 <style scoped>

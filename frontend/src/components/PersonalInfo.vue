@@ -4,7 +4,7 @@
 
     <div class="form-grid">
       <div class="form-group">
-        <label for="name">Name</label>
+        <label for="name">Name<span class="required-asterisk">*</span></label>
         <input
           id="name"
           v-model="store.personalInfo.name"
@@ -16,7 +16,7 @@
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">Email<span class="required-asterisk">*</span></label>
         <input
           id="email"
           v-model="store.personalInfo.email"
@@ -28,7 +28,7 @@
       </div>
 
       <div class="form-group">
-        <label for="location">Location</label>
+        <label for="location">Location<span class="required-asterisk">*</span></label>
         <input
           id="location"
           v-model="store.personalInfo.location"
@@ -42,16 +42,23 @@
       <div class="form-group">
         <label for="links">Portfolio / LinkedIn</label>
         <div v-for="(link, index) in store.personalInfo.links" :key="index">
+          <span class="required-asterisk">*</span>
+          <input
+          :id="`linkText-${index}`"
+          v-model="store.personalInfo.links[index].text"
+          type="text"
+          class="form-control"
+          placeholder="Display Name"><span class="required-asterisk">*</span>
           <input
           :id="`link-${index}`"
-          v-model="store.personalInfo.links[index]"
+          v-model="store.personalInfo.links[index].url"
           type="url"
           class="form-control"
           placeholder="https://..."
         />
-        <button type="button" @click="removeLink(index)" class="btn-danger">X</button>
+        <button type="button" @click="removeLink(index)" class="btn-danger">Remove link</button>
         </div>
-        <button type="button" @click="addLink" class="btn-success">+</button>
+        <button type="button" @click="addLink" class="btn-success">Add Link</button>
       </div>
 
       <div class="form-group">
@@ -81,20 +88,14 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import { useResume } from '../index.js';
 const store = useResume();
 const addLink = () => {
-  store.personalInfo.links.push('');
+  store.personalInfo.links.push({text: '', url: ''});
 };
 const removeLink = (index) => {
   store.personalInfo.links.splice(index, 1);
 };
-onMounted(() => {
-  if (!store.personalInfo.links || store.personalInfo.links.length === 0) {
-    store.personalInfo.links = [''];
-  }
-});
 </script>
 
 <style scoped>

@@ -1,9 +1,9 @@
 <template>
   <div class="mt-8">
-    <h2 class="text-xl font-semibold">Upload Existing CV</h2>
+    <h2 class="text-xl font-semibold">Upload Json File for faster filling</h2>
     <input
       type="file"
-      accept=".pdf,.doc,.docx,.txt"
+      accept=".json"
       @change="handleUpload"
       ref="fileInput"
     />
@@ -34,20 +34,9 @@ const handleUpload = (event) => {
   const reader = new FileReader();
   reader.onload = async () => {
     try {
-      const base64 = reader.result.split(',')[1];
-      const response = await fetch('/extract-data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ file: base64 }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to extract data from file');
-      }
-
-      const data = await response.json();
+      const data = JSON.parse(reader.result);    
       Object.assign(store, data);
-      successMsg.value = 'Resume uploaded and data extracted successfully!';
+      successMsg.value = 'JSON uploaded and data extracted successfully!';
       // Clear the file input so the same file can be uploaded again if needed
       if (fileInput.value) fileInput.value.value = '';
     } catch (error) {
@@ -59,7 +48,7 @@ const handleUpload = (event) => {
     errorMsg.value = 'Failed to read the file.';
   };
 
-  reader.readAsDataURL(file);
+  reader.readAsText(file);
 };
 </script>
 

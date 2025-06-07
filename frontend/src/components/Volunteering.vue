@@ -10,7 +10,7 @@
       >
         <form @submit.prevent>
           <div class="form-group">
-            <label :for="`organization-${index}`">Organization</label>
+            <label :for="`organization-${index}`">Organization<span class="required-asterisk">*</span></label>
             <input
               :id="`organization-${index}`"
               v-model.trim="position.organization"
@@ -22,7 +22,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`role-${index}`">Role/Position</label>
+            <label :for="`role-${index}`">Role/Position<span class="required-asterisk">*</span></label>
             <input
               :id="`role-${index}`"
               v-model.trim="position.role"
@@ -34,7 +34,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`location-${index}`">Location</label>
+            <label :for="`location-${index}`">Location<span class="required-asterisk">*</span></label>
             <input
               :id="`location-${index}`"
               v-model.trim="position.location"
@@ -47,7 +47,7 @@
 
           <div class="form-group-inline">
             <div class="form-group">
-              <label :for="`startDate-${index}`">Start Date</label>
+              <label :for="`startDate-${index}`">Start Date<span class="required-asterisk">*</span></label>
               <input
                 :id="`startDate-${index}`"
                 v-model="position.startDate"
@@ -81,7 +81,7 @@
           </div>
 
           <button
-            v-if="store.volunteering.length > 1"
+            v-if="store.volunteering.length > 0"
             @click="removePosition(index)"
             type="button"
             class="btn btn-danger w-full mt-2"
@@ -106,7 +106,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import { useResume } from '../index.js';
 
 const store = useResume();
@@ -123,23 +122,10 @@ const addPosition = () => {
 };
 
 const removePosition = (index) => {
-  if (store.volunteering.length > 1) {
+  if (store.volunteering.length > 0) {
     store.volunteering.splice(index, 1);
   }
 };
-
-onMounted(() => {
-  if (!store.volunteering || store.volunteering.length === 0) {
-    store.volunteering = [{
-      organization: '',
-      role: '',
-      location: '',
-      startDate: '',
-      endDate: '',
-      description: ''
-    }];
-  }
-});
 </script>
 
 <style scoped>

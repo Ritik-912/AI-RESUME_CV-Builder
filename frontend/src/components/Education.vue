@@ -10,7 +10,7 @@
       >
         <form @submit.prevent>
           <div class="form-group">
-            <label :for="`institute-${index}`">Institute Name</label>
+            <label :for="`institute-${index}`">Institute Name<span class="required-asterisk">*</span></label>
             <input
               :id="`institute-${index}`"
               v-model="edu.instituteName"
@@ -22,7 +22,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`course-${index}`">Course Name</label>
+            <label :for="`course-${index}`">Course Name<span class="required-asterisk">*</span></label>
             <input
               :id="`course-${index}`"
               v-model="edu.courseName"
@@ -34,7 +34,7 @@
           </div>
 
           <div class="form-group-inline">
-            <label :for="`start-${index}`">Start Date</label>
+            <label :for="`start-${index}`">Start Date<span class="required-asterisk">*</span></label>
             <input
               :id="`start-${index}`"
               v-model="edu.startDate"
@@ -84,7 +84,7 @@
             type="button"
             class="btn btn-danger"
             @click="removeEducation(index)"
-            v-if="store.educations.length > 1"
+            v-if="store.educations.length > 0"
           >
             Remove
           </button>
@@ -104,7 +104,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import { useResume } from '../index.js';
 const store = useResume();
 
@@ -120,23 +119,10 @@ function addEducation() {
 }
 
 function removeEducation(index) {
-  if (store.educations.length > 1) {
+  if (store.educations.length > 0) {
     store.educations.splice(index, 1);
   }
 }
-
-onMounted(() => {
-  if (!store.educations || store.educations.length === 0) {
-    store.educations = [{
-      instituteName: '',
-      courseName: '',
-      startDate: '',
-      endDate: '',
-      grade: '',
-      description: ''
-    }];
-  }
-});
 </script>
 
 <style scoped>

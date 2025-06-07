@@ -228,6 +228,11 @@ textarea {
   margin-bottom: var(--space-lg);
 }
 
+.required-asterisk {
+  color: red;
+  margin-left: 4px;
+}
+
 /* ========== DARK MODE EXTENSION ========== */
 @media (prefers-color-scheme: dark) {
   :root {

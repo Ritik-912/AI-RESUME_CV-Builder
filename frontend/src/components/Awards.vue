@@ -10,7 +10,7 @@
       >
         <form @submit.prevent>
           <div class="form-group">
-            <label :for="`award-title-${index}`">Award Title</label>
+            <label :for="`award-title-${index}`">Award Title<span class="required-asterisk">*</span></label>
             <input
               :id="`award-title-${index}`"
               v-model="award.title"
@@ -22,7 +22,7 @@
           </div>
 
           <div class="form-group">
-            <label :for="`award-org-${index}`">Organization</label>
+            <label :for="`award-org-${index}`">Organization<span class="required-asterisk">*</span></label>
             <input
               :id="`award-org-${index}`"
               v-model="award.organization"
@@ -34,11 +34,11 @@
           </div>
 
           <div class="form-group">
-            <label :for="`award-date-${index}`">Date Earned</label>
+            <label :for="`award-date-${index}`">Date Earned<span class="required-asterisk">*</span></label>
             <input
               :id="`award-date-${index}`"
               v-model="award.dateEarned"
-              type="date"
+              type="month"
               class="form-control"
               required
             />
@@ -50,7 +50,7 @@
             type="button"
             class="btn btn-danger"
             @click="removeAward(index)"
-            v-if="store.awards.length > 1"
+            v-if="store.awards.length > 0"
           >
             Remove
           </button>
@@ -70,7 +70,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import { useResume } from '../index.js';
 const store = useResume();
 
@@ -85,18 +84,6 @@ function addAward() {
 function removeAward(index) {
   store.awards.splice(index, 1);
 }
-
-onMounted(() => {
-  if (!store.awards || store.awards.length === 0) {
-    store.awards = [
-      {
-        title: '',
-        organization: '',
-        dateEarned: ''
-      }
-    ];
-  }
-});
 </script>
 
 <style scoped>
