@@ -1,189 +1,226 @@
-\documentclass[11pt]{article}
-\usepackage[a4paper,margin=0.45in]{geometry}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{lmodern}
-\renewcommand{\familydefault}{\sfdefault}
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
 \usepackage{enumitem}
-\usepackage{hyperref}
-\usepackage{fontawesome}
-\usepackage{setspace}
-\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\columnsep}{-1pt}
+\input{glyphtounicode}
 
-\definecolor{headerblue}{HTML}{0A4F7A}
-\definecolor{graytext}{gray}{0.3}
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
 
-\hypersetup{
-    colorlinks=true,
-    linkcolor=headerblue,
-    urlcolor=headerblue
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
 }
 
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1pt}
-\setlist[itemize]{leftmargin=*, topsep=0pt, itemsep=1pt, parsep=0pt}
+\newcommand{\classesList}[4]{
+    \item\small{
+        {#1 #2 #3 #4 \vspace{-2pt}}
+  }
+}
 
-\usepackage{titlesec}
-\titleformat{\section}{
-  \color{headerblue}\scshape\large
-}{}{0em}{}[\titlerule]
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textbf{\small #2}\\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
 
 \begin{document}
-\pagestyle{empty}
-
-%========================
-% HEADER
-%========================
-\begin{center}
-    {\LARGE \textbf{ {{ personalInfo.name | latex_escape }} }} \\[4pt]
-    \small
-    \faEnvelope \hspace{1pt} \href{mailto:{{ personalInfo.email | latex_escape }} } {{ personalInfo.email | latex_escape }} \quad
-    \faMapMarker \hspace{1pt} {{ personalInfo.location | latex_escape }} \quad
-    {% if personalInfo.links %}
-    {% for link in personalInfo.links if link %}
-        \href{ {{ link.url | latex_escape }} }{ {{ link.text | latex_escape }} } \quad
-    {% endfor %}
+    % Header
+    {\Huge \scshape {{ personalInfo.name }} } \\ \vspace{1pt}
+    {{ personalInfo.location }}  \\ \vspace{1pt}
+    \small \raisebox{-0.1\height}\faPhone\ {{ personalInfo.phone }} ~ \href{mailto:{{ personalInfo.email }}}{\raisebox{-0.2\height}\faEnvelope\  \underline{ {{personalInfo.email}} }} ~ 
+    {% if personalInfo.linkedin %}\href{ {{personalInfo.linkedin}} }{\raisebox{-0.2\height}\faLinkedin\ \underline{ {{personalInfo.linkedin.split('//')[-1]}} }}  ~{% endif %}
+    {% if personalInfo.github %}\href{ {{personalInfo.github}} }{\raisebox{-0.2\height}\faGithub\ \underline{ {{ personalInfo.github.split('//')[-1] }} }}{% endif %}
+    \vspace{-8pt}
+    % Education
+    {% if educations %}
+    \section{Education}
+      \resumeSubHeadingListStart
+        {% for edu in educations %}
+        \resumeSubheading
+          { {{edu.instituteName}} }{ {{ edu.startDate }} -- {{ edu.endDate or "Present" }} }
+          { {{ edu.courseName }} }{ {{ edu.location or "" }} }
+        {% endfor %}
+      \resumeSubHeadingListEnd
     {% endif %}
-\end{center}
-
-%========================
-% SUMMARY
-%========================
-{% if personalInfo.summary %}
-\vspace{-4pt}
-\hrule
-\vspace{6pt}
-\section*{Professional Summary}
-{% if personalInfo.targetTitle %}
-\textbf{ {{ personalInfo.targetTitle | latex_escape }} }\hspace{6pt}
-{% endif %}
-\small
-{{ personalInfo.summary | latex_escape }}
-\normalsize
-{% endif %}
-
-%========================
-% TECHNICAL SKILLS
-%========================
-{% if skills %}
-\section*{Skills}
-\begin{itemize}
-    {% for skill in skills %}
-    \item \textbf{ {{ skill.name | latex_escape }} }: {{ skill.level | latex_escape }}
-    {% endfor %}
-\end{itemize}
-{% endif %}
-
-%========================
-% WORK EXPERIENCE
-%========================
-{% if workExperiences %}
-\section*{Professional Experience}
-{% for job in workExperiences %}
-\textbf{ {{ job.position | latex_escape }} } \hfill \textit{ {{ job.startDate }} -- {{ job.endDate or 'Present' }} }\\
-\textit{ {{ job.organization | latex_escape }} }
-{% if job.description %}
-\begin{itemize}
-    \item {{ job.description | latex_escape }}
-\end{itemize}
-{% endif %}
-\vspace{2pt}
-{% endfor %}
-{% endif %}
-
-%========================
-% EDUCATION
-%========================
-{% if educations %}
-\section*{Education}
-{% for edu in educations %}
-\textbf{ {{ edu.courseName | latex_escape }} } \hfill \textit{ {{ edu.startDate }} -- {{ edu.endDate or 'Present' }} }\\
-{{ edu.instituteName | latex_escape }} \hfill {{ edu.grade | latex_escape }}\\
-{% if edu.description %}\small {{ edu.description | latex_escape }} \normalsize{% endif %}
-\vspace{2pt}
-{% endfor %}
-{% endif %}
-
-%========================
-% PROJECTS
-%========================
-{% if projects %}
-\section*{Projects}
-\begin{itemize}
-    {% for project in projects %}
-    \item \textbf{ {{ project.title | latex_escape }} } {% if project.organisation %}({{ project.organisation | latex_escape }}){% endif %} \hfill \textit{ {{ project.startDate or '' }} -- {{ project.endDate or 'Present' }} }
-    {% if project.link %}\\ \href{ {{ project.link | latex_escape }} }{link}{% endif %}
-    {% if project.description %}
-    {{ project.description | latex_escape }}
+    % Relevant Coursework
+    {% if relevantCoursework %}
+    \section{Relevant Coursework}
+        \resumeSubHeadingListStart
+            \begin{multicols}{4}
+            \begin{itemize}[itemsep=-5pt, parsep=3pt]
+            \small
+            {% for course in relevantCoursework %}
+                \item {{ course }}
+            {% endfor %}
+            \end{itemsize}
+            \end{multicols}
+            \vspace*{2.0\multicolsep}
+        \resumeSubHeadingListEnd
     {% endif %}
-    {% endfor %}
-\end{itemize}
-{% endif %}
-
-%========================
-% CERTIFICATIONS
-%========================
-{% if certifications %}
-\section*{Certifications}
-\begin{itemize}
-    {% for cert in certifications %}
-    \item \textbf{ {{ cert.title | latex_escape }} } \hfill {{ cert.issuingAuthority | latex_escape }}, {{ cert.issueDate }}
-    {% endfor %}
-\end{itemize}
-{% endif %}
-
-%========================
-% AWARDS
-%========================
-{% if awards %}
-\section*{Awards}
-\begin{itemize}
-    {% for award in awards %}
-    \item \textbf{ {{ award.title | latex_escape }} } \hfill {{ award.organization | latex_escape }}, {{ award.dateEarned }}
-    {% endfor %}
-\end{itemize}
-{% endif %}
-
-%========================
-% LANGUAGES
-%========================
-{% if languages %}
-\section*{Languages}
-\begin{itemize}
-    {% for lang in languages %}
-    \item {{ lang.name | latex_escape }} --- {{ lang.level }}
-    {% endfor %}
-\end{itemize}
-{% endif %}
-
-%========================
-% VOLUNTEERING
-%========================
-{% if volunteering %}
-\section*{Volunteering}
-{% for vol in volunteering %}
-\textbf{ {{ vol.role | latex_escape }} } \hfill \textit{ {{ vol.startDate }} -- {{ vol.endDate or 'Present' }} }\\
-{{ vol.organization | latex_escape }}, {{ vol.location | latex_escape }}\\
-{% if vol.description %}\small {{ vol.description | latex_escape }} \normalsize{% endif %}
-\vspace{2pt}
-{% endfor %}
-{% endif %}
-
-%========================
-% PUBLICATIONS
-%========================
-{% if publications %}
-\section*{Publications}
-\begin{itemize}
-    {% for pub in publications %}
-    \item \textbf{ {{ pub.title | latex_escape }} }, {{ pub.publisher | latex_escape }} ({{ pub.publishedDate }})
-    {% if pub.abstract %}\\ {{ pub.abstract | latex_escape }}{% endif %}
-    {% if pub.link %}\\ \href{ {{ pub.link | latex_escape }} }{link}{% endif %}
-    {% endfor %}
-\end{itemize}
-{% endif %}
-
-\vfill
-{\footnotesize \textcolor{graytext}{Last updated: \today}}
-
+    % Experience
+    {% if workExperiences %}
+    \section{Experience}
+      \resumeSubHeadingListStart
+          {% for exp in workExperiences %}
+          \resumeSubheading{ {{ exp.organization }} }{ {{ exp.startDate }} -- {{ exp.endDate or "Present" }} }
+              { {{ exp.position }} }{ {{ exp.location or "" }} }
+              {% if exp.description %}
+              \resumeItemListStart
+                  \resumeItem{ {{ exp.description }} }
+              \resumeItemListEnd
+              {% endif %}
+          {% endfor %}
+      \resumeSubHeadingListEnd
+      \vspace{-16pt}
+    {% end if %}
+    % Projects
+    {% if projects %}
+    \section{Projects}
+    \vspace{-5pt}
+    \resumeSubHeadingListStart
+        {% for project in projects %}
+            \resumeProjectHeading{ {{ project.title }} {% if project.techStack %} $|$ \emph{ {{ project.techStack }} }{% endif %} } { {{ project.date }} }
+            \resumeItemListStart
+              {% if project.description %}
+                \resumeItem{ {{ project.description }} }
+              {% endif %}
+            \resumeItemListEnd
+            \vspace{-13pt}
+        {% endfor %}
+    \resumeSubHeadingListEnd
+    {% endif %}
+    % Skills
+    {% if skills %}
+    \section{Technical Skills}
+    \begin{itemize}[leftmargin=0.15in, label={}]
+      \small\item{
+          {% for group in skills %}
+            \textbf{ {{ group.group }} }{: 
+              {% for skill in group.members %}
+                {{ skill.name }}: {{ skill.level }} {% if not loop.last %}, {% endif %}
+              {% endfor %}
+            }
+          {% endfor %}
+      }
+    \end{itemize}
+    \vspace{-16pt}
+    {% endif %}
+    
+    % Certifications (optional)
+    {% if certifications %}
+    \section{Certifications}
+    \resumeSubHeadingListStart
+      {% for cert in certifications %}
+        \resumeSubheading{ {{ cert.title }} }{ {{ cert.issueDate }} }{ {{ cert.issuingAuthority }} }{}
+      {% endfor %}
+    \resumeSubHeadingListEnd
+    {% endif %}
+    
+    % Awards
+    {% if awards %}
+    \section{Awards}
+    \resumeSubHeadingListStart
+      {% for award in awards %}
+        \resumeSubheading
+          { {{ award.title }} }{ {{ award.dateEarned }} }{ {{ award.organization }} }{}
+      {% endfor %}
+    \resumeSubHeadingListEnd
+    {% endif %}
+    
+    % Volunteering
+    {% if volunteering %}
+    \section{Volunteering}
+    \resumeSubHeadingListStart
+      {% for vol in volunteering %}
+        \resumeSubheading{ {{ vol.organization }} }{ {{ vol.startDate }} -- {{ vol.endDate or "Present" }} }{ {{ vol.role }} }{ {{ vol.location }} }
+        {% if vol.description %}
+          \resumeItemListStart
+            \resumeItem{{ vol.description }}
+          \resumeItemListEnd
+        {% endif %}
+      {% endfor %}
+    \resumeSubHeadingListEnd
+    {% endif %}
+    
+    % Publications
+    {% if publications %}
+    \section{Publications}
+    \resumeSubHeadingListStart
+      {% for pub in publications %}
+        \resumeSubheading{ {{ pub.title }} }{ {{ pub.publishedDate }} }{ {{ pub.publisher }} }{}
+        {% if pub.abstract %}
+          \resumeItemListStart
+            \resumeItem{{ pub.abstract }}
+          \resumeItemListEnd
+        {% endif %}
+      {% endfor %}
+    \resumeSubHeadingListEnd
+    {% endif %}
 \end{document}
