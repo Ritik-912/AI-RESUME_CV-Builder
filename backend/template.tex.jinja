@@ -105,7 +105,7 @@
         {% for edu in educations %}
         \resumeSubheading
           { {{edu.instituteName}} }{ {{ edu.startDate }} -- {{ edu.endDate or "Present" }} }
-          { {{ edu.courseName }} }{ {{ edu.location or "" }} }
+          { {{ edu.courseName }} }{ {{ edu.grade }}  {{ edu.location or "" }} }
         {% endfor %}
       \resumeSubHeadingListEnd
     {% endif %}
@@ -146,7 +146,7 @@
     \vspace{-5pt}
     \resumeSubHeadingListStart
         {% for project in projects %}
-            \resumeProjectHeading{ {{ project.title }} {% if project.techStack %} $|$ \emph{ {{ project.techStack }} }{% endif %} } { {{ project.date }} }
+            \resumeProjectHeading{ {{ project.title }} {% if project.techStack %} $|$ \emph{ {{ project.techStack }} }{% endif %} } { {{ project.date }} {% if project.link %} \href{ {{ project.link }} }{\raisebox{-0.2\height}\faGithub\ \underline{View Project}} {% endif %} }
             \resumeItemListStart
               {% if project.description %}
                 \resumeItem{ {{ project.description }} }
@@ -214,7 +214,7 @@
     \section{Publications}
     \resumeSubHeadingListStart
       {% for pub in publications %}
-        \resumeSubheading{ {{ pub.title }} }{ {{ pub.publishedDate }} }{ {{ pub.publisher }} }{}
+        \resumeSubheading{ {{ pub.title }} }{ {{ pub.publishedDate }} }{ {{ pub.publisher }} }{ pub.link or "" }
         {% if pub.abstract %}
           \resumeItemListStart
             \resumeItem{{ pub.abstract }}
