@@ -56,6 +56,17 @@
           </div>
 
           <div class="form-group">
+            <label :for="`location-${index}`">Location</label>
+            <input
+              :id="`location-${index}`"
+              v-model="experience.location"
+              type="text"
+              class="form-control"
+              placeholder="Enter location"
+            />
+          </div>
+
+          <div class="form-group">
             <label :for="`description-${index}`">Description</label>
             <textarea
               :id="`description-${index}`"
@@ -98,7 +109,8 @@ const addExperience = () => {
     position: '',
     startDate: '',
     endDate: '',
-    description: ''
+    description: '',
+    location: ''
   })
 }
 

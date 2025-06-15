@@ -1,27 +1,23 @@
-FROM node:18 AS frontend
+FROM texlive/texlive:latest
 
-FROM python:3.11-slim AS backend
-
-# Install LaTeX
-RUN apt-get update && apt-get install -y \
-    texlive-fonts-extra \
-    texlive-latex-base \
-    texlive-latex-recommended \
-    texlive-latex-extra \
-    texlive-fonts-recommended \
-    lmodern \
-    texlive-lang-english \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
+# Set working directory
 WORKDIR /app
 
-# Copy Python app
-COPY ./ .
+# Install Python and pip
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    && apt-get clean
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# Copy application code
+COPY ./ ./
 
+# Install Python dependencies with override
+RUN pip3 install --break-system-packages --upgrade pip && \
+    pip3 install --break-system-packages -r requirements.txt
+
+# Expose backend port
 EXPOSE 7860
 
+# Launch the application
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]

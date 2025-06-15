@@ -21,33 +21,22 @@
           </div>
 
           <div class="form-group">
-            <label :for="`project-org-${index}`">Organization</label>
+            <label :for="`project-date-${index}`">Date<span class="required-asterisk">*</span></label>
             <input
-              :id="`project-org-${index}`"
+              :id="`project-date-${index}`"
+              type="month"
+              v-model="project.date"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label :for="`project-tech-${index}`">Tech Stack</label>
+            <input
+              :id="`project-tech-${index}`"
               type="text"
-              v-model.trim="project.organisation"
-              class="form-control"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label :for="`project-start-${index}`">Start Date<span class="required-asterisk">*</span></label>
-            <input
-              :id="`project-start-${index}`"
-              type="month"
-              v-model="project.startDate"
-              class="form-control"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label :for="`project-end-${index}`">End Date<span class="required-asterisk">*</span></label>
-            <input
-              :id="`project-end-${index}`"
-              type="month"
-              v-model="project.endDate"
+              v-model="project.techStack"
               class="form-control"
             />
           </div>
@@ -101,10 +90,9 @@ const store = useResume()
 function addProject() {
   store.projects.push({
     title: '',
-    organisation: '',
-    startDate: '',
-    endDate: '',
-    link: null,
+    techStack: '',
+    date: '',
+    link: '',
     description: ''
   })
 }

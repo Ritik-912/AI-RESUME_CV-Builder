@@ -67,15 +67,15 @@
             />
           </div>
 
-          <div class="form-group full-width">
-            <label :for="`desc-${index}`">Description</label>
-            <textarea
-              :id="`desc-${index}`"
-              v-model="edu.description"
+          <div class="form-group">
+            <label :for="`location-${index}`">Location</label>
+            <input
+              :id="`location-${index}`"
+              v-model="edu.location"
+              type="text"
               class="form-control"
-              rows="3"
-              placeholder="Optional details about your studies"
-            ></textarea>
+              placeholder="Location of studying"
+            >
           </div>
         </form>
 
@@ -114,7 +114,7 @@ function addEducation() {
     startDate: '',
     endDate: '',
     grade: '',
-    description: ''
+    location: ''
   });
 }
 

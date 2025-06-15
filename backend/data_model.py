@@ -1,17 +1,13 @@
 from pydantic import BaseModel, EmailStr, HttpUrl
 from typing import List, Optional
 
-class LinkItem(BaseModel):
-    text: str
-    url: HttpUrl
-
 class PersonalInfo(BaseModel):
     name: str
+    phone: str
     email: EmailStr
     location: str
-    links: Optional[List[LinkItem]] | None = None
-    targetTitle: Optional[str] | None = None
-    summary: Optional[str] | None = None
+    linkedin: Optional[HttpUrl] | None = None
+    github: Optional[HttpUrl] | None = None
 
 class WorkExperienceItem(BaseModel):
     organization: str
@@ -19,6 +15,7 @@ class WorkExperienceItem(BaseModel):
     startDate: str
     endDate: Optional[str] | None = None
     description: Optional[str] | None = None
+    location: Optional[str] | None = None
 
 class EducationItem(BaseModel):
     instituteName: str
@@ -26,7 +23,7 @@ class EducationItem(BaseModel):
     startDate: str
     endDate: Optional[str] | None = None
     grade: Optional[str] | None = None
-    description: Optional[str] | None = None
+    location: Optional[str] | None = None
 
 class CertificationItem(BaseModel):
     title: str
@@ -40,15 +37,10 @@ class AwardItem(BaseModel):
 
 class ProjectItem(BaseModel):
     title: str
-    organisation: Optional[str] | None = None
-    startDate: str
-    endDate: str
+    date: str
     link: Optional[HttpUrl] | None = None
     description: Optional[str] | None = None
-
-class LanguageItem(BaseModel):
-    name: str
-    level: str
+    techStack: Optional[str] | None = None
 
 class VolunteeringItem(BaseModel):
     organization: str
@@ -69,15 +61,24 @@ class SkillItem(BaseModel):
     name: str
     level: str
 
+class SkillGroup(BaseModel):
+    group: str
+    members: List[SkillItem]
+
+class LanguageItem(BaseModel):
+    name: str
+    level: str
+
 class ResumeData(BaseModel):
     personalInfo: PersonalInfo
+    relevantCoursework: Optional[List[str]] | None = None
     workExperiences: Optional[List[WorkExperienceItem]] | None = None
     educations: Optional[List[EducationItem]] | None = None
     certifications: Optional[List[CertificationItem]] | None = None
-    skills: Optional[List[SkillItem]] | None = None
+    skills: Optional[List[SkillGroup]] | None = None
     awards: Optional[List[AwardItem]] | None = None
     projects: Optional[List[ProjectItem]] | None = None
-    languages: Optional[List[LanguageItem]] | None = None
     volunteering: Optional[List[VolunteeringItem]] | None = None
     publications: Optional[List[PublicationItem]] | None = None
+    languages: Optional[List[LanguageItem]] | None = None
     jobDescription: Optional[str] | None = None

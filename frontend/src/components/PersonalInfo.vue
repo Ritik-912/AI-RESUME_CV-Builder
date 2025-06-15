@@ -40,48 +40,39 @@
       </div>
 
       <div class="form-group">
-        <label for="links">Portfolio / LinkedIn</label>
-        <div v-for="(link, index) in store.personalInfo.links" :key="index">
-          <span class="required-asterisk">*</span>
-          <input
-          :id="`linkText-${index}`"
-          v-model="store.personalInfo.links[index].text"
-          type="text"
-          class="form-control"
-          placeholder="Display Name"><span class="required-asterisk">*</span>
-          <input
-          :id="`link-${index}`"
-          v-model="store.personalInfo.links[index].url"
-          type="url"
-          class="form-control"
-          placeholder="https://..."
-        />
-        <button type="button" @click="removeLink(index)" class="btn-danger">Remove link</button>
-        </div>
-        <button type="button" @click="addLink" class="btn-success">Add Link</button>
-      </div>
-
-      <div class="form-group">
-        <label for="targetTitle">Target Job Title</label>
+        <label for="phone">Phone Number<span class="required-asterisk">*</span></label>
         <input
-          id="targetTitle"
-          v-model="store.personalInfo.targetTitle"
-          type="text"
+          id="phone"
+          v-model="store.personalInfo.phone"
+          type="phone"
           class="form-control"
-          placeholder="e.g. Frontend Developer"
+          placeholder="+91.."
           required
         />
       </div>
 
-      <div class="form-group full-width">
-        <label for="summary">Professional Summary</label>
-        <textarea
-          id="summary"
-          v-model="store.personalInfo.summary"
+      <div class="form-group">
+        <label for="Linkedin">Linkedin</label>
+        <input
+          id="linkedin"
+          v-model="store.personalInfo.linkedin"
+          type="url"
           class="form-control"
-          placeholder="A concise summary of your background and career goals..."
-          rows="4"
-        ></textarea>
+          placeholder="https://www.linkedin.com/in/"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="Github">Github</label>
+        <input
+          id="github"
+          v-model="store.personalInfo.github"
+          type="url"
+          class="form-control"
+          placeholder="https://github.com/"
+          required
+        />
       </div>
     </div>
   </section>
@@ -90,12 +81,6 @@
 <script setup>
 import { useResume } from '../index.js';
 const store = useResume();
-const addLink = () => {
-  store.personalInfo.links.push({text: '', url: ''});
-};
-const removeLink = (index) => {
-  store.personalInfo.links.splice(index, 1);
-};
 </script>
 
 <style scoped>

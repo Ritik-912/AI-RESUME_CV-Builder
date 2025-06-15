@@ -10,6 +10,7 @@ import Publications from './components/Publications.vue';
 import Skills from './components/Skills.vue';
 import Languages from './components/Languages.vue';
 import ResumeUploader from './components/ResumeUploader.vue';
+import RelevantCoursework from './components/RelevantCoursework.vue';
 import { ref } from 'vue';
 import api from './api';
 import { useResume } from './index.js';
@@ -21,16 +22,16 @@ const validationMsg = ref('');
 const showDocumentation = ref(false);
 
 const validationSchema = {
-  personalInfo: ['name', 'email', 'location'],
+  personalInfo: ['name', 'email', 'location', 'phone'],
   workExperiences: ['organization', 'position', 'startDate'], // example
   educations: ['instituteName', 'courseName', 'startDate'],
   certifications: ['title', 'issuingAuthority', 'issueDate'],
   awards: ['title', 'organization', 'dateEarned'],
-  projects: ['title', 'startDate', 'endDate'],
-  languages: ['name', 'level'],
+  projects: ['title', 'date'],
   volunteering: ['organization', 'role', 'startDate'],
   publications: ['title', 'publisher', 'publishedDate'],
-  skills: ['name', 'level']
+  skills: ['group', 'members'],
+  languages: ['name', 'level'],
 };
 
 function validateSection(sectionData, requiredFields) {
@@ -65,16 +66,6 @@ const checkAllSections = (validationMsg) => {
 
   if (personalInfoErrors.length > 0) {
     errors.push(`Personal Info: ${personalInfoErrors.join(', ')}`);
-  }
-
-  // Validate Links
-  if (store.$state.personalInfo.links && store.$state.personalInfo.links.length > 0) {
-    store.$state.personalInfo.links.forEach((item, index) => {
-      const errs = validateSection(item, ['url', 'text'])
-      if (errs.length > 0) {
-        errors.push(`Social Media Links #${index + 1}: ${errs.join(', ')}`);
-      }
-    });
   }
 
   // Validate workExperiences
@@ -218,6 +209,7 @@ const generateCV = async () => {
       const cleanData = deepClean(JSON.parse(JSON.stringify(store.$state)));
       const response = await api.post('/generate-cv', cleanData, {headers: {'Content-Type': 'application/json'}, responseType: 'blob'});
       downloadFile(response.data, 'cv.pdf');
+      responseMssg.value = 'CV generated successfully!';
     }
   } catch (error) {
     responseMssg.value = `CV generation failed: ${error}`;
@@ -232,6 +224,7 @@ const generateResume = async () => {
       const cleanData = deepClean(JSON.parse(JSON.stringify(store.$state)));
       const response = await api.post('/generate-resume', cleanData, {headers: {'Content-Type': 'application/json'}, responseType: 'blob'});
       downloadFile(response.data, 'resume.pdf');
+      responseMssg.value = 'Resume generated successfully!';
     }
   } catch (error) {
     responseMssg.value = `Resume generation failed: ${error}`;
@@ -290,6 +283,7 @@ const toggleView = () => {
     <div v-if="showDocumentation" class="documentation-wrapper"><Documentation /></div>
     <div v-else class="app-content">
       <section><PersonalInfo /></section>
+      <section><RelevantCoursework /></section>
       <section><WorkExperience /></section>
       <section><Education /></section>
       <section><Certifications /></section>
